@@ -16,7 +16,7 @@ This project is supposed to effectivize CAD work but wont replace a regular keyb
 3x M3 Heatset
 
 ## Schematic (a little messy)
-[Macropad schematics](C:\Users\revil\Pictures\Screenshots\Skjermbilde 2026-07-11 004705.png)
+[Macropad schematics](Skjermbilde 2026-07-11 004705.png)
 
 ## PCB
 [Macropad PCB Diagram](Skjermbilde 2026-07-11 004512.png)
