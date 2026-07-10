@@ -19,5 +19,5 @@ This project is supposed to effectivize CAD work but wont replace a regular keyb
 [Macropad schematics](C:\Users\revil\Pictures\Screenshots\Skjermbilde 2026-07-11 004705.png)
 
 ## PCB
-[Macropad PCB Diagram](C:\Users\revil\Pictures\Screenshots\Skjermbilde 2026-07-11 004512.png)
+[Macropad PCB Diagram](Skjermbilde 2026-07-11 004512.png)
 
