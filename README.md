@@ -1,5 +1,6 @@
 # CAD-hackpad
 A macropad made to optimize commonly used commands/actions in Soldiworks CAD.
+
 ![3D picture of the CADpad box](Skjermbilde 2026-07-11 005723.png)
 
 ## Simple-ish explanation of project
@@ -16,8 +17,11 @@ This project is supposed to effectivize CAD work but wont replace a regular keyb
 3x M3 Heatset
 
 ## Schematic (a little messy)
+
 ![Macropad schematics](Skjermbilde 2026-07-11 004705.png)
 
 ## PCB
+
 ![Macropad PCB Diagram](Skjermbilde 2026-07-11 004512.png)
+
 
