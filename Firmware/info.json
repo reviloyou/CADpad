@@ -1,0 +1,25 @@
+{
+    "manufacturer": "oliverbek",
+    "keyboard_name": "cadpad",
+    "maintainer": "reviloyou",
+    "processor": "RP2040",
+    "bootloader": "rp2040",
+    "features": {
+        "encoder": true,
+        "nkro": true
+    },
+     "matrix_pins": {
+        "direct": [
+            ["GP10", "GP9"],
+            ["GP8",  "GP7"],
+            ["GP4",  "GP5"],
+            ["GP3",  null]
+        ]
+    },
+
+        "encoder": {
+        "rotary": [
+            {"pin_a": "GP2", "pin_b": "GP0", "resolution": 4}
+        ]
+    }
+}
