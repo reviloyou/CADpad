@@ -1,0 +1,64 @@
+name: Build CADpad firmware
+
+on:
+  push:
+    paths:
+      - 'Firmware/**'
+      - '.github/workflows/build-firmware.yml'
+  pull_request:
+    paths:
+      - 'Firmware/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build ${{ matrix.keymap }} keymap
+    runs-on: ubuntu-latest
+    container: qmkfm/qmk_cli
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - keymap: default
+            source: Firmware/keymap.c
+          - keymap: production
+            source: Firmware/production/keymap.c
+
+    steps:
+      - name: Let git trust the workspace
+        run: git config --global --add safe.directory '*'
+
+      - name: Check out CADpad
+        uses: actions/checkout@v4
+        with:
+          path: cadpad
+
+      - name: Check out QMK firmware
+        uses: actions/checkout@v4
+        with:
+          repository: qmk/qmk_firmware
+          path: qmk_firmware
+          submodules: recursive
+
+      - name: Graft the cadpad keyboard into the QMK tree
+        run: |
+          set -eux
+          dest=qmk_firmware/keyboards/cadpad
+          mkdir -p "$dest/keymaps/${{ matrix.keymap }}"
+          cp cadpad/Firmware/info.json "$dest/"
+          cp cadpad/Firmware/rules.mk  "$dest/"
+          cp "cadpad/${{ matrix.source }}" "$dest/keymaps/${{ matrix.keymap }}/keymap.c"
+
+      - name: Compile
+        working-directory: qmk_firmware
+        env:
+          QMK_HOME: ${{ github.workspace }}/qmk_firmware
+        run: qmk compile -kb cadpad -km ${{ matrix.keymap }}
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: cadpad-${{ matrix.keymap }}-uf2
+          path: qmk_firmware/*.uf2
+          if-no-files-found: error

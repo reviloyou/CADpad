@@ -8,7 +8,7 @@
         "encoder": true,
         "nkro": true
     },
-     "matrix_pins": {
+    "matrix_pins": {
         "direct": [
             ["GP10", "GP9"],
             ["GP8",  "GP7"],
@@ -17,9 +17,23 @@
         ]
     },
 
-        "encoder": {
+    "encoder": {
         "rotary": [
             {"pin_a": "GP2", "pin_b": "GP0", "resolution": 4}
         ]
+    },
+
+    "layouts": {
+        "LAYOUT": {
+            "layout": [
+                {"matrix": [0, 0], "x": 0, "y": 0},
+                {"matrix": [0, 1], "x": 1, "y": 0},
+                {"matrix": [1, 0], "x": 0, "y": 1},
+                {"matrix": [1, 1], "x": 1, "y": 1},
+                {"matrix": [2, 0], "x": 0, "y": 2},
+                {"matrix": [2, 1], "x": 1, "y": 2},
+                {"matrix": [3, 0], "x": 0, "y": 3}
+            ]
+        }
     }
 }

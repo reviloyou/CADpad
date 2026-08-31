@@ -15,7 +15,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ENT, SW3_INTERVAL,                //SW1 Enter, SW3 bytt intervall
         LCA(KC_E), LCA(KC_C),           //SW2 extrude boss base (Crl-alt-e), SW5 cut extruded part (ctrl-alt-c)
         LCA(KC_P), KC_S,             //SW6 chose plane, SW7 sketch
-        SW4_Round,  KC_NO     
+        SW4_Round
     )
 };
 
@@ -34,9 +34,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false; 
 
         case SW4_Round:                                              //Writing the many commands beforehand ctrl+a ctrl+x mark and cut
-            SEND_STRING(SS_DOWN(X_LCTRL) "ax" SS_UP(X_LCTRL));       //round(x/10)*10 (if you need to round a number your not in the 0.1,s)
+            SEND_STRING(SS_DOWN(X_LCTL) "ax" SS_UP(X_LCTL));       //round(x/10)*10 (if you need to round a number your not in the 0.1,s)
             SEND_STRING("=round(");
-            SEND_STRING(SS_DOWN(X_LCTRL) "v" SS_UP(X_LCTRL));
+            SEND_STRING(SS_DOWN(X_LCTL) "v" SS_UP(X_LCTL));
             SEND_STRING("/10)*10" SS_TAP(X_ENT));
 
             return false;
