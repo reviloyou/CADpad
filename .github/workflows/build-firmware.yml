@@ -56,7 +56,6 @@ jobs:
           set -eux
           qmk config user.qmk_home="$PWD"
           echo "QMK_HOME=$PWD" >> "$GITHUB_ENV"
-          qmk config user.qmk_home
           ls -la keyboards/cadpad
           ls -la "keyboards/cadpad/keymaps/${{ matrix.keymap }}"
 
@@ -79,9 +78,24 @@ jobs:
           enc=$(printf "%s" "$body" | sed "s/%/%25/g" | tr -d "\015" | awk '{printf "%s%%0A", $0}')
           echo "::error title=QMK compile failed (${{ matrix.keymap }})::$enc"
 
+      - name: Locate the built firmware
+        run: |
+          set -x
+          mkdir -p out
+          found=$(find "$GITHUB_WORKSPACE" /qmk_firmware /root /home -name '*.uf2' 2>/dev/null || true)
+          echo "$found"
+          if [ -z "$found" ]; then
+            echo "::error title=No .uf2 produced::make reported success but no *.uf2 was found on disk"
+            exit 1
+          fi
+          echo "$found" | while read -r f; do cp -v "$f" out/; done
+          ls -la out
+          enc=$(printf "%s" "$found" | awk '{printf "%s%%0A", $0}')
+          echo "::notice title=Firmware located::$enc"
+
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: cadpad-${{ matrix.keymap }}-uf2
-          path: qmk_firmware/*.uf2
+          path: out/*.uf2
           if-no-files-found: error
