@@ -51,10 +51,25 @@ jobs:
           cp "cadpad/${{ matrix.source }}" "$dest/keymaps/${{ matrix.keymap }}/keymap.c"
 
       - name: Compile
+        id: compile
         working-directory: qmk_firmware
         env:
           QMK_HOME: ${{ github.workspace }}/qmk_firmware
-        run: qmk compile -kb cadpad -km ${{ matrix.keymap }}
+        run: |
+          set -o pipefail
+          qmk compile -kb cadpad -km ${{ matrix.keymap }} 2>&1 | tee /tmp/compile.log
+
+      - name: Surface compile errors as annotations
+        if: failure() && steps.compile.outcome == 'failure'
+        run: |
+          echo "===== error lines ====="
+          grep -niE "error|undefined|no such file|cannot" /tmp/compile.log | head -40 || true
+          echo "===== tail ====="
+          tail -n 60 /tmp/compile.log || true
+          body=$(grep -niE "error|undefined|no such file|cannot" /tmp/compile.log | head -25)
+          if [ -z "$body" ]; then body=$(tail -n 40 /tmp/compile.log); fi
+          enc=$(printf "%s" "$body" | sed "s/%/%25/g" | tr -d "\015" | awk '{printf "%s%%0A", $0}')
+          echo "::error title=QMK compile failed (${{ matrix.keymap }})::$enc"
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
