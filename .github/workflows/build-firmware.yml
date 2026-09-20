@@ -46,7 +46,7 @@ jobs:
           set -eux
           dest=qmk_firmware/keyboards/cadpad
           mkdir -p "$dest/keymaps/${{ matrix.keymap }}"
-          cp cadpad/Firmware/info.json "$dest/"
+          cp cadpad/Firmware/keyboard.json "$dest/"
           cp cadpad/Firmware/rules.mk  "$dest/"
           cp "cadpad/${{ matrix.source }}" "$dest/keymaps/${{ matrix.keymap }}/keymap.c"
 
@@ -98,7 +98,7 @@ jobs:
           bld=$(ls .build 2>/dev/null | head -5 || echo "no .build")
           blob="discover=[$disc] build=[$bld] loghead=[$mk]"
           enc=$(printf "%s" "$blob" | sed "s/%/%25/g" | tr -d "\015" | awk '{printf "%s%%0A", $0}')
-          echo "::error title=DIAG ${{ matrix.keymap }}::$enc"
+          echo "::notice title=DIAG ${{ matrix.keymap }}::$enc"
 
       - name: Locate the built firmware
         run: |
