@@ -13,18 +13,21 @@
         "encoder": true,
         "nkro": true
     },
+
+    "_comment": "Pins are XIAO RP2040 GPIO numbers, not the D-pad silkscreen numbers. Mapping from the KiCad netlist: SW1=D10=GP3, SW2=D9=GP4, SW3=D8=GP2, SW5=D4=GP6, SW6=D5=GP7, SW7=D7=GP1, encoder A=D1=GP27, B=D0=GP26, button=D2=GP28.",
+
     "matrix_pins": {
         "direct": [
-            ["GP10", "GP9"],
-            ["GP8",  "GP7"],
-            ["GP4",  "GP5"],
-            ["GP3",  null]
+            ["GP3",  "GP2"],
+            ["GP4",  "GP6"],
+            ["GP7",  "GP1"],
+            ["GP28", null]
         ]
     },
 
     "encoder": {
         "rotary": [
-            {"pin_a": "GP2", "pin_b": "GP0", "resolution": 4}
+            {"pin_a": "GP27", "pin_b": "GP26", "resolution": 4}
         ]
     },
 
