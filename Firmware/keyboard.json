@@ -4,6 +4,11 @@
     "maintainer": "reviloyou",
     "processor": "RP2040",
     "bootloader": "rp2040",
+    "usb": {
+        "vid": "0xFEED",
+        "pid": "0xCAD0",
+        "device_version": "1.0.0"
+    },
     "features": {
         "encoder": true,
         "nkro": true
