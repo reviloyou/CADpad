@@ -1,5 +1,7 @@
 # CAD-hackpad
-A macropad made to optimize commonly used commands/actions in Soldiworks CAD.
+A macropad made to optimize commonly used commands/actions in Soldiworks CAD. Claude used for the program export onto the CADpad
+
+![CADpad built](Pictures/CADpadIRL.jpg)
 
 ![3D picture of the CADpad box](Pictures/3DCADpadbox.png)
 
@@ -10,9 +12,6 @@ This project is supposed to effectivize CAD work but wont replace a regular keyb
 
 ## Case assembly
 The case assembly is split into a simple top and bottom. This can be 3D printed and is made so that this sanwich ice-cream looking hackpad doesnt feature any visible screws. On the top part of the case you can see 3 holes: these holes are intended to fit the guide-stick on the bottom case, as well as, 2 M3 heat innset. This makes it so that the screws can be secured safely and threaded through the bottom case making it so that no screws are visible. For assembly after getting the heatset innserts put in is simple: Line up the soldered PCB pointing seeduino down and beeing able to read "thy barbiemann", you also have to make sure that the seeduino is pointed towards the output port. Then you simply have 2 screws for easy accessibility.
-
-## Note to reviwer 
-The PCB has not been changed, it has been ordered and cant be changed, reagarding the access of the usb-c port one support was made smaller to better fit and stabalize the board. I cant change the pcb location beacuse it already has been ordered. The usb-c is fully accecible and the port is stowed away a little inside the box. 
 
 ## Bill of materials
 1x XIAO RP2040
