@@ -50,23 +50,31 @@ jobs:
           cp cadpad/Firmware/rules.mk  "$dest/"
           cp "cadpad/${{ matrix.source }}" "$dest/keymaps/${{ matrix.keymap }}/keymap.c"
 
+      - name: Point QMK at this checkout
+        working-directory: qmk_firmware
+        run: |
+          set -eux
+          qmk config user.qmk_home="$PWD"
+          echo "QMK_HOME=$PWD" >> "$GITHUB_ENV"
+          qmk config user.qmk_home
+          ls -la keyboards/cadpad
+          ls -la "keyboards/cadpad/keymaps/${{ matrix.keymap }}"
+
       - name: Compile
         id: compile
         working-directory: qmk_firmware
-        env:
-          QMK_HOME: ${{ github.workspace }}/qmk_firmware
         run: |
           set -o pipefail
-          qmk compile -kb cadpad -km ${{ matrix.keymap }} 2>&1 | tee /tmp/compile.log
+          make "cadpad:${{ matrix.keymap }}" 2>&1 | tee /tmp/compile.log
 
       - name: Surface compile errors as annotations
         if: failure() && steps.compile.outcome == 'failure'
         run: |
           echo "===== error lines ====="
-          grep -niE "error|undefined|no such file|cannot" /tmp/compile.log | head -40 || true
+          grep -niE "error|undefined|no such file|cannot|not found" /tmp/compile.log | head -40 || true
           echo "===== tail ====="
           tail -n 60 /tmp/compile.log || true
-          body=$(grep -niE "error|undefined|no such file|cannot" /tmp/compile.log | head -25)
+          body=$(grep -niE "error|undefined|no such file|cannot|not found" /tmp/compile.log | head -25)
           if [ -z "$body" ]; then body=$(tail -n 40 /tmp/compile.log); fi
           enc=$(printf "%s" "$body" | sed "s/%/%25/g" | tr -d "\015" | awk '{printf "%s%%0A", $0}')
           echo "::error title=QMK compile failed (${{ matrix.keymap }})::$enc"
