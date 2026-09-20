@@ -78,6 +78,28 @@ jobs:
           enc=$(printf "%s" "$body" | sed "s/%/%25/g" | tr -d "\015" | awk '{printf "%s%%0A", $0}')
           echo "::error title=QMK compile failed (${{ matrix.keymap }})::$enc"
 
+      - name: Diagnose (always)
+        if: always()
+        run: |
+          cd qmk_firmware || exit 0
+          echo "===== qmk config ====="
+          qmk config user.qmk_home || true
+          echo "QMK_HOME env = $QMK_HOME"
+          echo "===== is cadpad discoverable? ====="
+          qmk list-keyboards 2>/dev/null | grep -i cadpad || echo "CADPAD NOT LISTED"
+          echo "===== keyboards/cadpad contents ====="
+          find keyboards/cadpad -type f | head -20
+          echo "===== .build contents ====="
+          ls -la .build 2>/dev/null || echo "no .build dir"
+          echo "===== compile log ====="
+          cat /tmp/compile.log || true
+          mk=$(tail -n 30 /tmp/compile.log 2>/dev/null)
+          disc=$(qmk list-keyboards 2>/dev/null | grep -i cadpad || echo "CADPAD NOT LISTED")
+          bld=$(ls .build 2>/dev/null | head -5 || echo "no .build")
+          blob="discover=[$disc] build=[$bld] loghead=[$mk]"
+          enc=$(printf "%s" "$blob" | sed "s/%/%25/g" | tr -d "\015" | awk '{printf "%s%%0A", $0}')
+          echo "::error title=DIAG ${{ matrix.keymap }}::$enc"
+
       - name: Locate the built firmware
         run: |
           set -x
